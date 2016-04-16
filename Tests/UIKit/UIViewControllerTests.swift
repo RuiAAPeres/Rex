@@ -79,4 +79,19 @@ class UIViewControllerTests: XCTestCase {
         
         viewController.viewWillAppear(true)
     }
+    
+    func testDismissViewController() {
+        
+        let expectation = self.expectationWithDescription("Expected rex_viewWillAppearSignal to be triggered")
+        defer { self.waitForExpectationsWithTimeout(2, handler: nil) }
+        
+        let viewController = UIViewController()
+        _viewController = viewController
+        
+        viewController.rex_dismissModally.signal.observeNext { _ in
+            expectation.fulfill()
+        }
+        
+        viewController.rex_dismissModally <~ SignalProducer(value: ())
+    }
 }

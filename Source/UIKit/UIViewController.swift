@@ -40,4 +40,15 @@ extension UIViewController {
             .rac_signalForSelector(selector)
             .rex_toTriggerSignal()
     }
+    
+    public var rex_dismissModally: MutableProperty<Void> {
+        
+        let property = associatedProperty(self, key: &dismissModally, initial: { _ in }, setter: { _ in })
+        
+        property <~ rac_signalForSelector(#selector(UIViewController.dismissViewControllerAnimated(_:completion:))).rex_toTriggerSignal()
+        
+        return property
+    }
 }
+
+private var dismissModally: UInt8 = 0
